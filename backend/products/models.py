@@ -77,11 +77,6 @@ class ProductImage(models.Model):
     def __str__(self):
         return f'{self.product.name} - {self.image}'
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if self.image:
-            self.image.create(size='thumbnail', quality=90)
-
 class ProductVariantImage(models.Model):
     variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE, related_name='variant_images')
     image = VersatileImageField(

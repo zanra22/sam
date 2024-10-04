@@ -10,12 +10,10 @@ import {
 import Rating from "./Rating";
 
 const ProductCard = ({ product }) => {
-  
   const calculateDiscountPercentage = () => {
     if (product.discounted_price && product.base_price) {
       const discount = Math.round(
-        ((product.base_price - product.discounted_price) /
-          product.base_price) *
+        ((product.base_price - product.discounted_price) / product.base_price) *
           100
       );
       return `${discount}%`;
@@ -27,10 +25,17 @@ const ProductCard = ({ product }) => {
   const discountPercentage = calculateDiscountPercentage();
 
   // Assuming you want to display the first image from the images array
-  const productImage = product.images.length > 0 ? product.images[0].image.full_size : '';
+  const productImage =
+    product.images.length > 0 ? product.images[0].image.full_size : "";
 
   return (
-    <Card className="relative m-10 w-full max-w-xs overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+    <Card
+      style={{
+        backgroundColor: "var(--background)",
+        border: "3px solid var(--navigation)",
+      }}
+      className="mb-4 overflow-hidden rounded-lg shadow-md duration-500 hover:shadow-xl"
+    >
       {/* Image Section */}
       <Link
         href={`/product/${product.id}`}
@@ -55,7 +60,8 @@ const ProductCard = ({ product }) => {
           <Typography
             variant="h5"
             component="div"
-            className="text-xl tracking-tight text-slate-900"
+            className="text-xl tracking-tight"
+            style={{ color: "var(--text)" }}
           >
             {product.name}
           </Typography>
@@ -68,14 +74,16 @@ const ProductCard = ({ product }) => {
                 <Typography
                   variant="h5"
                   component="span"
-                  className="font-bold text-slate-900"
+                  className="font-bold"
+                  style={{ color: "var(--text)" }}
                 >
                   ${product.discounted_price}
                 </Typography>
                 <Typography
                   variant="body2"
                   component="span"
-                  className="ml-2 text-xs text-slate-900 line-through"
+                  className="ml-2 text-xs line-through"
+                  style={{ color: "var(--text)" }}
                 >
                   ${product.base_price}
                 </Typography>
@@ -84,7 +92,8 @@ const ProductCard = ({ product }) => {
               <Typography
                 variant="h5"
                 component="span"
-                className="font-bold text-slate-900"
+                className="font-bold "
+                style={{ color: "var(--text)" }}
               >
                 ${product.base_price}
               </Typography>
@@ -105,8 +114,14 @@ const ProductCard = ({ product }) => {
         {/* Add to Cart Button */}
         <Button
           variant="contained"
-          color="primary"
-          className="flex items-center justify-center w-full bg-slate-900 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+          sx={{
+            backgroundColor: "var(--accent)",
+            color: "var(--text)",
+            "&:hover": {
+              backgroundColor: "var(--secondary)",
+            },
+          }}
+          className="flex items-center justify-center w-full focus:outline-none focus:ring-4 focus:ring-blue-300"
         >
           Add to cart
         </Button>

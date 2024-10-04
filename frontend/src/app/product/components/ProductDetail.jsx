@@ -12,11 +12,15 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import Rating from "./Rating";
+import Magnifier from "./Magnifier";
 
 export default function ProductDetail({ product }) {
   const [activeTab, setActiveTab] = useState("description");
-  const productImage =
-    product.images.length > 0 ? product.images[0].image.full_size : "";
+  const [productImage, setProductImage] = useState(
+    product.images.length > 0 ? product.images[0].image.full_size : ""
+  );
+  // const productImage =
+  //   product.images.length > 0 ? product.images[0].image.full_size : "";
   const totalReviews = product.review_list ? product.review_list.length : 0;
   const starCounts = [1, 2, 3, 4, 5].map((star) => {
     const count = product.review_list
@@ -31,14 +35,18 @@ export default function ProductDetail({ product }) {
     <>
       {/* Breadcrumb */}
       <nav>
-        <Breadcrumbs separator="/" aria-label="breadcrumb">
-          <Link href="/" className="text-gray-600 hover:text-gray-800">
+        <Breadcrumbs
+          separator="/"
+          aria-label="breadcrumb"
+          style={{ color: "var(--text)" }}
+        >
+          <Link href="/" style={{ color: "var(--text)" }}>
             Home
           </Link>
-          <Link href="/products" className="text-gray-600 hover:text-gray-800">
+          <Link href="/products" style={{ color: "var(--text)" }}>
             Products
           </Link>
-          <Typography color="textPrimary">Coffee</Typography>
+          <Typography style={{ color: "var(--text)" }}>Coffee</Typography>
         </Breadcrumbs>
       </nav>
 
@@ -48,25 +56,22 @@ export default function ProductDetail({ product }) {
           <div className="lg:flex lg:items-start">
             <div className="lg:order-2 lg:ml-5">
               <div className="max-w-xl overflow-hidden rounded-lg">
-                <img
-                  className="h-full w-full object-cover"
-                  src={productImage}
-                  alt={product.name}
-                />
+                <Magnifier src={productImage} alt={product.name} />
               </div>
             </div>
 
             <div className="mt-2 w-full lg:order-1 lg:w-32 lg:flex-shrink-0">
               <div className="flex flex-row lg:flex-col">
                 {product.images.map((image) => (
-                  <Button 
+                  <Button
                     key={image.id}
                     type="button"
+                    onClick={() => setProductImage(image.image.full_size)}
                     className="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center"
                   >
                     <img
                       className="h-full w-full max-w-full object-cover"
-                      src={image.image.full_size}
+                      src={image.image.small}
                       alt={product.name}
                     />
                   </Button>
@@ -84,21 +89,14 @@ export default function ProductDetail({ product }) {
 
           <div className="mt-5 flex items-center">
             <div className="flex items-center text-yellow-500">
-              {Array(5)
-                .fill("")
-                .map((_, i) => (
-                  <svg
-                    key={i}
-                    className="h-4 w-4 fill-current"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                  </svg>
-                ))}
+              <Rating value={product.rating} />
             </div>
-            <Typography variant="body2" className="ml-2 text-gray-500">
-              1,209 Reviews
+            <Typography
+              variant="body2"
+              className="ml-2"
+              style={{ color: "var(--text)" }}
+            >
+              {product.num_reviews} Reviews
             </Typography>
           </div>
 
@@ -151,7 +149,7 @@ export default function ProductDetail({ product }) {
             </RadioGroup>
           </div>
 
-          <div className="mt-10 flex items-center justify-between space-y-4 border-t border-b py-4">
+          <div className="mt-10 flex items-center justify-between border-t border-b py-4">
             <div className="flex items-end">
               {product.discounted_price ? (
                 <>
@@ -160,7 +158,7 @@ export default function ProductDetail({ product }) {
                   </Typography>
                   <Typography
                     variant="h5"
-                    className="ml-2 text-xs text-slate-900 line-through"
+                    className="ml-2 text-sm line-through"
                   >
                     ${product.base_price}
                   </Typography>
@@ -170,20 +168,29 @@ export default function ProductDetail({ product }) {
                   <Typography
                     variant="h5"
                     component="span"
-                    className="font-bold text-slate-900"
+                    className="font-bold"
+                    style={{ color: "var(--text)" }}
                   >
                     ${product.base_price}
                   </Typography>
                 </>
               )}
             </div>
-            <Button
-              variant="contained"
-              color="primary"
-              className="bg-gray-900 text-white hover:bg-gray-800 px-12 py-3"
-            >
-              Add to Cart
-            </Button>
+            <div className="flex items-end">
+              <Button
+                variant="contained"
+                className="w-48 h-12"
+                sx={{
+                  backgroundColor: "var(--accent)",
+                  color: "var(--text)",
+                  "&:hover": {
+                    backgroundColor: "var(--secondary)",
+                  },
+                }}
+              >
+                Add to Cart
+              </Button>
+            </div>
           </div>
 
           {/* Additional Info */}
@@ -195,17 +202,39 @@ export default function ProductDetail({ product }) {
             <nav className="flex gap-4">
               <Link
                 href="#"
-                className="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-600"
+                className="text-sm font-medium"
                 onClick={() => setActiveTab("description")}
               >
-                Description
+                <Typography
+                  className="py-4"
+                  sx={{
+                    color: "var(--text)",
+                    "&:hover": {
+                      color: "var(--accent)",
+                      borderBottom: "2px solid var(--accent)",
+                    },
+                  }}
+                >
+                  Description
+                </Typography>
               </Link>
               <Link
                 href="#"
-                className="border-b-2 border-transparent py-4 text-sm font-medium text-gray-500 hover:border-gray-400 hover:text-gray-600"
+                className="text-sm font-medium"
                 onClick={() => setActiveTab("additionalInfo")}
               >
-                Additional Information
+                <Typography
+                  className="py-4"
+                  sx={{
+                    color: "var(--text)",
+                    "&:hover": {
+                      color: "var(--accent)",
+                      borderBottom: "2px solid var(--accent)",
+                    },
+                  }}
+                >
+                  Addition Information
+                </Typography>
               </Link>
             </nav>
           </div>
@@ -213,7 +242,7 @@ export default function ProductDetail({ product }) {
             {activeTab === "description" ? (
               <>
                 <h3 className="text-lg font-bold">Product Description</h3>
-                <p className="mt-2 text-sm text-gray-600">
+                <p className="mt-2 text-sm" style={{ color: "var(--text)" }}>
                   {product.description}
                 </p>
               </>
@@ -228,7 +257,7 @@ export default function ProductDetail({ product }) {
             )}
           </div>
           {/* Reviews */}
-          <ul className="">
+          <ul>
             {product.review_list.map((review) => (
               <li key={review.id} className="py-8 text-left border px-4 m-2">
                 <div className="flex items-start">
@@ -241,13 +270,13 @@ export default function ProductDetail({ product }) {
                   <div className="ml-6">
                     <Rating value={review.rating} />
 
-                    <p className="mt-5 text-base text-gray-900">
+                    <p className="mt-5 text-base" style={{ color: "var(--text)" }}>
                       {review.comment}
                     </p>
-                    <p className="mt-5 text-sm font-bold text-gray-900">
+                    <p className="mt-5 text-sm font-bold" style={{ color: "var(--text)" }}>
                       {review.user_username}
                     </p>
-                    <p className="mt-1 text-sm text-gray-600">
+                    <p className="mt-1 text-sm" style={{ color: "var(--text)" }}>
                       {review.created_at}
                     </p>
                   </div>
@@ -260,12 +289,12 @@ export default function ProductDetail({ product }) {
         <div className="my-10 mx-auto max-w-screen-md px-10">
           <div className="flex w-full flex-col">
             <div className="flex flex-col sm:flex-row">
-              <h1 className="max-w-sm text-3xl font-bold text-blue-900">
+              <h1 className="max-w-sm text-3xl font-bold" style={{ color: "var(--accent)" }}>
                 What people think <br />
                 about {product.name}
               </h1>
-              <div className="my-4 rounded-xl bg-white py-2 px-4 shadow sm:my-0 sm:ml-auto">
-                <div className="flex h-16 items-center text-2xl font-bold text-blue-900">
+              <div style={{backgroundColor: "var(--background)", border: "1px solid var(--foreground)"}} className="my-4 rounded-xl py-2 px-4 shadow sm:my-0 sm:ml-auto">
+                <div className="flex h-16 items-center text-2xl font-bold" style={{ color: "var(--text)" }}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-12 w-12 text-yellow-400"
@@ -276,11 +305,11 @@ export default function ProductDetail({ product }) {
                   </svg>
                   {product.rating}
                 </div>
-                <p className="text-sm text-gray-500">Average User Rating</p>
+                <p className="text-sm" style={{ color: "var(--text)" }}>Average User Rating</p>
               </div>
             </div>
             <div className="text-gray-700">
-              <p className="font-medium">Reviews</p>
+              <p className="font-medium" style={{ color: "var(--text)" }}>Reviews</p>
               <ul className="mb-6 mt-2 space-y-2">
                 {[...Array(5).keys()].map((_, index) => {
                   const count = starCounts[index];
@@ -292,13 +321,15 @@ export default function ProductDetail({ product }) {
                       key={index}
                       className="flex items-center text-sm font-medium"
                     >
+                      <p style={{ color: "var(--text)" }}>{index + 1}</p>
                       <span className="mr-4 text-yellow-400">
+                        
                         <svg
                           className="h-5 w-5"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          {index}<path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                       </span>
 
@@ -311,13 +342,13 @@ export default function ProductDetail({ product }) {
                       </div>
 
                       {/* Display the review count for this star */}
-                      <p className="ml-4">{count || 0}</p>
+                      <p className="ml-4" style={{ color: "var(--text)" }}>{count || 0}</p>
                     </li>
                   );
                 })}
               </ul>
             </div>
-            <button className="w-36 rounded-full bg-blue-900 py-3 text-white font-medium">
+            <button style={{ color: "var(--text)", backgroundColor: "var(--accent)" }} className="w-36 rounded-full py-3 font-medium">
               Write a review
             </button>
           </div>

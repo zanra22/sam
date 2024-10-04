@@ -4,4 +4,3 @@ const API_BASE_URL =
     : "https://your-production-url.com"; // Production backend URL
 
 export default API_BASE_URL;
-asd

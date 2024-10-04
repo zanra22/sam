@@ -1,78 +1,84 @@
-import { Container, Typography, Link, Box, IconButton } from "@mui/material";
-import { GitHub, Twitter, LinkedIn } from "@mui/icons-material";
-const Footer = ({}) => {
-  return (
-    <footer className="bg-gray-900 bottom-0 left-0 w-full py-4">
-      <Container maxWidth="lg">
-        <Box className="flex flex-col md:flex-row justify-between items-center">
-          {/* Left Side */}
-          <Box className="mb-4 md:mb-0">
-            <Typography variant="h6" className="text-white mb-2">
-              My Website
-            </Typography>
-            <Typography variant="body2" className="text-gray-400">
-              © {new Date().getFullYear()} My Website. All rights reserved.
-            </Typography>
-          </Box>
+import { Box, Typography, TextField, Button, Grid, Link } from '@mui/material';
 
-          {/* Center Links */}
-          <Box className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
-            <Link
-              href="/"
-              underline="none"
-              className="text-gray-400 hover:text-white"
-            >
-              Home
-            </Link>
-            <Link
-              href="/about"
-              underline="none"
-              className="text-gray-400 hover:text-white"
-            >
-              About
-            </Link>
-            <Link
-              href="/contact"
-              underline="none"
-              className="text-gray-400 hover:text-white"
-            >
-              Contact
-            </Link>
-            <Link
-              href="/privacy"
-              underline="none"
-              className="text-gray-400 hover:text-white"
-            >
+const Footer = () => {
+  return (
+    <footer style={{ backgroundColor: "var(--navigation)" }}>
+      <Box className="mx-auto max-w-screen-xl px-4 py-10">
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={3}>
+            <Typography variant="h6" className="mb-2 flex items-center space-x-2 text-2xl font-bold">
+              <span>E</span>
+              <span className="text-blue-600">Commerce</span>
+            </Typography>
+            <Typography variant="body2" className="text-gray-500">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nobis ad a officia ea expedita!
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Typography variant="subtitle1" className="mt-4 mb-2 font-medium">
+              Address
+            </Typography>
+            <Typography variant="body2" className="text-gray-500">
+              35 Remida Heights,
+              <br />
+              45 Street,
+              <br />
+              South Caroline, US
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Typography variant="subtitle1" className="mt-4 mb-2 font-medium">
+              Links
+            </Typography>
+            <nav aria-label="Footer Navigation">
+              <ul className="space-y-3">
+                {['Pricing', 'Demo', 'Press', 'Support Hub', 'Contact'].map((link) => (
+                  <li key={link}>
+                    <Link href="#" className="text-gray-500 hover:text-blue-600 hover:underline">
+                      {link}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Typography variant="subtitle1" className="mt-4 mb-2 font-medium">
+              Subscribe to our Newsletter
+            </Typography>
+            <div className="flex flex-col">
+              <div className="mb-4">
+                <TextField
+                  variant="outlined"
+                  className="mb-2 w-full rounded-xl bg-gray-200 focus:ring-1 focus:ring-blue-600"
+                  placeholder="Enter your email"
+                  size="small"
+                />
+                <Button
+                  variant="contained"
+                  className="rounded-xl bg-blue-600 px-6 py-3 font-medium text-white"
+                >
+                  Subscribe
+                </Button>
+              </div>
+            </div>
+          </Grid>
+        </Grid>
+      </Box>
+      <Box style={{ backgroundColor: "var(--background)" }}>
+        <Box className="mx-auto flex max-w-screen-xl flex-col gap-y-4 px-4 py-3 text-center text-gray-500 sm:flex-row sm:justify-between sm:text-left">
+          <Typography variant="body2">© {new Date().getFullYear()} My Website. All rights reserved.</Typography>
+          <div>
+            <Link href="#" className="text-gray-500 hover:underline">
               Privacy Policy
             </Link>
-          </Box>
-
-          {/* Right Side - Social Icons */}
-          <Box className="flex space-x-4">
-            <IconButton
-              href="https://github.com"
-              target="_blank"
-              className="text-gray-400 hover:text-white"
-            >
-              <GitHub />
-            </IconButton>
-            <IconButton
-              href="https://twitter.com"
-              target="_blank"
-              className="text-gray-400 hover:text-white"
-            >
-              <Twitter />
-            </IconButton>
-            <IconButton
-              href="https://linkedin.com"
-              target="_blank"
-              className="text-gray-400 hover:text-white"
-            >
-              <LinkedIn />
-            </IconButton>
-          </Box>
+            <span className="mx-2">|</span>
+            <Link href="#" className="text-gray-500 hover:underline">
+              Terms of Service
+            </Link>
+          </div>
         </Box>
-      </Container>
+      </Box>
     </footer>
   );
 };

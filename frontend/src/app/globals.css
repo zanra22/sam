@@ -3,22 +3,46 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F3F3F3; /* Light mode background */
+  --foreground: #070707; /* Light mode foreground */
+  --primary: #070707;    /* Light mode primary color */
+  --secondary: #3FA7D6;  /* Light mode secondary color */
+  --accent: #287EBB;     /* Light mode accent color */
+  --text: #070707;
+  --navigation: #E1E1E1; /* Light mode text color */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #070707; /* Dark mode background */
+    --foreground: #F3F3F3; /* Dark mode foreground */
+    --primary: #F3F3F3;    /* Dark mode primary color */
+    --secondary: #3FA7D6;  /* Dark mode secondary color */
+    --accent: #287EBB;     /* Dark mode accent color */
+    --text: #F3F3F3;       /* Dark mode text color */
+    --navigation: #0D1B2A;
   }
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  background-color: var(--background);
+  font-family: Arial, sans-serif;
 }
+
+a {
+  color: var(--secondary);
+}
+
+button {
+  background-color: var(--primary);
+  color: var(--foreground);
+}
+
+button:hover {
+  background-color: var(--accent);
+}
+
 
 @layer utilities {
   .text-balance {
